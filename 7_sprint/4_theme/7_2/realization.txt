@@ -1,0 +1,33 @@
+== Physical Plan ==
+AdaptiveSparkPlan isFinalPlan=true
++- == Final Plan ==
+   TableCacheQueryStage 0
+   +- InMemoryTableScan [title#419]
+         +- InMemoryRelation [title#419], StorageLevel(disk, memory, deserialized, 1 replicas)
+               +- AdaptiveSparkPlan isFinalPlan=false
+                  +- Project [title#419]
+                     +- SortMergeJoin [book_id#421L], [book_id#425L], LeftAnti
+                        :- Sort [book_id#421L ASC NULLS FIRST], false, 0
+                        :  +- Exchange hashpartitioning(book_id#421L, 200), ENSURE_REQUIREMENTS, [plan_id=753]
+                        :     +- Project [title#419, book_id#421L]
+                        :        +- Scan ExistingRDD[title#419,author#420,book_id#421L]
+                        +- Sort [book_id#425L ASC NULLS FIRST], false, 0
+                           +- Exchange hashpartitioning(book_id#425L, 200), ENSURE_REQUIREMENTS, [plan_id=754]
+                              +- Project [book_id#425L]
+                                 +- Filter isnotnull(book_id#425L)
+                                    +- Scan ExistingRDD[book_id#425L,Library_id#426]
++- == Initial Plan ==
+   InMemoryTableScan [title#419]
+      +- InMemoryRelation [title#419], StorageLevel(disk, memory, deserialized, 1 replicas)
+            +- AdaptiveSparkPlan isFinalPlan=false
+               +- Project [title#419]
+                  +- SortMergeJoin [book_id#421L], [book_id#425L], LeftAnti
+                     :- Sort [book_id#421L ASC NULLS FIRST], false, 0
+                     :  +- Exchange hashpartitioning(book_id#421L, 200), ENSURE_REQUIREMENTS, [plan_id=753]
+                     :     +- Project [title#419, book_id#421L]
+                     :        +- Scan ExistingRDD[title#419,author#420,book_id#421L]
+                     +- Sort [book_id#425L ASC NULLS FIRST], false, 0
+                        +- Exchange hashpartitioning(book_id#425L, 200), ENSURE_REQUIREMENTS, [plan_id=754]
+                           +- Project [book_id#425L]
+                              +- Filter isnotnull(book_id#425L)
+                                 +- Scan ExistingRDD[book_id#425L,Library_id#426]

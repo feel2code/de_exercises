@@ -1,0 +1,18 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sampleservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sampleservice
+  template:
+    metadata:
+      labels:
+        app: sampleservice
+    spec:
+      containers:
+      - name: sampleservice
+        image: cr.yandex/crpe7gmtkh8el8rkf2ub/sample_service:latest 

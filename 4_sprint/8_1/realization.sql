@@ -1,0 +1,1 @@
+select * from  stage.dq_checks_results limit 3;
